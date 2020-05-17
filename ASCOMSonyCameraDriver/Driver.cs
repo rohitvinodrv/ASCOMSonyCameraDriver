@@ -1178,6 +1178,7 @@ namespace ASCOM.SonyMirrorless
         {
             if (!IsConnected)
             {
+                LogMessage("CheckConnected", "Device is not connected, throwing");
                 throw new ASCOM.NotConnectedException(message);
             }
         }
