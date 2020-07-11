@@ -104,6 +104,12 @@ namespace ASCOM.SonyMirrorless
         internal static int Personality = SonyCommon.PERSONALITY_APT;
         internal static Mutex serialAccess;
 
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LoadLibrary(string dllToLoad);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool SetDllDirectory(string pathToAdd);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="a6400"/> class.
         /// Must be public for COM registration.
@@ -117,6 +123,24 @@ namespace ASCOM.SonyMirrorless
 
             utilities = new Util(); //Initialise util object
             astroUtilities = new AstroUtils(); // Initialise astro utilities object
+
+            // Load the Driver DLL
+            bool is64Bit = Environment.Is64BitProcess;
+            String path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            SetDllDirectory(path);
+
+            String dll = is64Bit ? "x64\\SonyMTPCamera.dll" : "SonyMTPCamera.dll";
+
+            tl.LogMessage("Camera", String.Format("{0}-bit version.  Loading {1}", is64Bit ? 64 : 32, dll));
+
+            IntPtr _dll = LoadLibrary(dll);
+
+            if (_dll == IntPtr.Zero)
+            {
+                tl.LogMessage("Camera", String.Format("Could not load {0}", dll));
+                tl.LogMessage("Camera", String.Format("Error {0}", Marshal.GetLastWin32Error()));
+            }
 
             tl.LogMessage("Camera", "Completed initialisation");
         }
