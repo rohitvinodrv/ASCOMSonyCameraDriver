@@ -42,6 +42,11 @@ Source: "C:\Users\dougf\source\repos\SonyCamera\Release\libraw.dll"; DestDir: "{
 Source: "C:\Users\dougf\source\repos\SonyCamera\Release\SonyMTPCamera.dll"; DestDir: "{app}"
 Source: "C:\Users\dougf\source\repos\SonyCamera\Release\turbojpeg.dll"; DestDir: "{app}"
 Source: "C:\Users\dougf\source\repos\SonyCamera\Release\SonyCameraInfo.exe"; DestDir: "{app}"
+; 64-bit files
+Source: "C:\Users\dougf\source\repos\SonyCamera\x64\Release\libraw.dll"; DestDir: "{app}\x64"
+Source: "C:\Users\dougf\source\repos\SonyCamera\x64\Release\SonyMTPCamera.dll"; DestDir: "{app}\x64"
+Source: "C:\Users\dougf\source\repos\SonyCamera\x64\Release\turbojpeg.dll"; DestDir: "{app}\x64"
+Source: "C:\Users\dougf\source\repos\SonyCamera\x64\Release\SonyCameraInfo.exe"; DestDir: "{app}\x64"
 
 ; Only if driver is .NET
 [Run]

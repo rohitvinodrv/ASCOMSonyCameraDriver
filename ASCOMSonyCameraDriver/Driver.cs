@@ -126,13 +126,12 @@ namespace ASCOM.SonyMirrorless
 
             // Load the Driver DLL
             bool is64Bit = Environment.Is64BitProcess;
-            String path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            String path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + (is64Bit ? "\\x64" : "");
+            String dll = "SonyMTPCamera.dll";
 
             SetDllDirectory(path);
 
-            String dll = is64Bit ? "x64\\SonyMTPCamera.dll" : "SonyMTPCamera.dll";
-
-            tl.LogMessage("Camera", String.Format("{0}-bit version.  Loading {1}", is64Bit ? 64 : 32, dll));
+            tl.LogMessage("Camera", String.Format("{0}-bit version.  Loading {1} from {2}", is64Bit ? 64 : 32, dll, path));
 
             IntPtr _dll = LoadLibrary(dll);
 
@@ -1419,7 +1418,7 @@ namespace ASCOM.SonyMirrorless
             using (Profile driverProfile = new Profile())
             {
                 driverProfile.DeviceType = "Camera";
-                tl.Enabled = Convert.ToBoolean(driverProfile.GetValue(driverID, traceStateProfileName, string.Empty, traceStateDefault));
+                tl.Enabled = true;// Convert.ToBoolean(driverProfile.GetValue(driverID, traceStateProfileName, string.Empty, traceStateDefault));
                 deviceId = driverProfile.GetValue(driverID, cameraProfileName, string.Empty, cameraDefault);
                 defaultReadoutMode = Convert.ToInt16(driverProfile.GetValue(driverID, readoutModeDefaultProfileName, string.Empty, readoutModeDefault));
                 SaveRawImageData = Convert.ToBoolean(driverProfile.GetValue(driverID, saveRawImageProfileName, string.Empty, saveRawImageDefault));
